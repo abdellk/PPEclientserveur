@@ -20,7 +20,7 @@ public class ServiceREST {
 	//private final static String QUEUE_NAME = "journal";
 	private String messageJournal;
 	private String nomprenom;
-	private String role;
+	private String role="";
 	
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
@@ -34,6 +34,7 @@ public class ServiceREST {
 		}
 		else
 			message.setBienvenue(messageJournal);
+		
 		
 		return message;		
 	}
