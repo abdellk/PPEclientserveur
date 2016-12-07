@@ -34,7 +34,7 @@ public class ServiceREST {
 		}
 		else
 			message.setBienvenue(messageJournal);
-		
+			message.setRole("");
 		
 		return message;		
 	}
