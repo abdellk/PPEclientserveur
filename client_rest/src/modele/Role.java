@@ -33,7 +33,7 @@ public class Role {
 	private String modifie_par;
 	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
 	private List<Utilisateur> utilisateurs = new ArrayList<>();
-	@OneToMany(mappedBy = "action", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
 	private List<Action> actions = new ArrayList<>();
 
 	public void ajoutAction(Action action) {
