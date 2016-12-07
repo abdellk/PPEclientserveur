@@ -50,7 +50,7 @@ public class ServiceREST {
 				Utilisateur utilisateur = (Utilisateur) requete.getSingleResult();
 			
 				if(!utilisateur.getPassword().equals(password)) {
-					messageJournal = email + " mauvais password" + new Date();
+					messageJournal = email + " mauvais password, " + new Date();
 				}
 				else {
 						nomprenom = utilisateur.getNom() + " " + utilisateur.getPrenom();
