@@ -55,6 +55,7 @@ public class ServiceREST {
 						nomprenom = utilisateur.getNom() + " " + utilisateur.getPrenom();
 						messageJournal = email + " accès " + new Date();
 						statut = true;
+						role= utilisateur.getRole().getRole();
 				}
 				
 
