@@ -54,20 +54,22 @@ public class ServiceREST {
 				Query requete = em.createNativeQuery("SELECT * FROM UTILISATEUR WHERE EMAIL=?", Utilisateur.class);
 				requete.setParameter(1, email);
 				Utilisateur utilisateur = (Utilisateur) requete.getSingleResult();
-			
+				nomprenom = utilisateur.getNom() +" " + utilisateur.getPrenom();
+				role= utilisateur.getRole().getRole();
 				if(!utilisateur.getPassword().equals(password)) {
-					messageJournal = email + " mauvais password, " + new Date();
+					messageJournal = email + "|" + nomprenom + "|mauvais password|" + new Date();
 				}
 				else {
-						nomprenom = utilisateur.getNom() + " " + utilisateur.getPrenom();
-						messageJournal = email + " accès " + new Date();
+						//nomprenom = utilisateur.getNom() + " " + utilisateur.getPrenom();
+						messageJournal = email + "|" + nomprenom + "|succes|" + new Date();
 						statut = true;
-						role= utilisateur.getRole().getRole();
+						//role= utilisateur.getRole().getRole();
+
 				}
 				
 
 		} catch (Exception e) {
-			messageJournal = email + " utilisateur inconnu" + new Date();
+			messageJournal = email + "|null|utilisateur inconnu|" + new Date();
 		}
 		finally {
 			em.getTransaction().commit();
