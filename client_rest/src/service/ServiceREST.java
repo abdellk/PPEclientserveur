@@ -1,6 +1,8 @@
 package service;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeoutException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -10,6 +12,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
 import modele.Utilisateur;
 import ressources.FournisseurDePersistance;
 import ressources.MessageDTO;
@@ -17,7 +23,7 @@ import ressources.MessageDTO;
 @Path("dto")
 public class ServiceREST {
 	
-	//private final static String QUEUE_NAME = "journal";
+	private final static String QUEUE_NAME = "journal";
 	private String messageJournal;
 	private String nomprenom;
 	private String role="";
@@ -29,7 +35,7 @@ public class ServiceREST {
 		MessageDTO message = new MessageDTO();
 		
 		if(authentifier(email, password)) {
-			message.setBienvenue("Bienvenue " + nomprenom + ", votre rôle est ");
+			message.setBienvenue("Bienvenue " + nomprenom + ", votre rôle est " +role+"," + new Date());
 			message.setRole(role);
 		}
 		else
@@ -67,14 +73,14 @@ public class ServiceREST {
 			em.getTransaction().commit();
 			em.close();
 			try {
-				//	journaliser();
+				journaliser();
 			} catch (Exception e) {e.printStackTrace();
 			}			
 		}
 		return statut;
 	}
 	
-	/*private void journaliser() throws IOException, TimeoutException {
+	private void journaliser() throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
 	    factory.setHost("rabbitmq");
 	    Connection connexion = (Connection) factory.newConnection();
@@ -84,5 +90,5 @@ public class ServiceREST {
 	    System.out.println(" [x] Envoyé '" + messageJournal + "'");
 	    channel.close();
 	    connexion.close();
-	}*/
+	}
 }

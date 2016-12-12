@@ -23,6 +23,7 @@ public class Peupleur {
 		Journal journal = new Journal("pierre.dupont@free.fr", "DUPONT Pierre", new Date(), "accès refusé");
 		Journal journal1 = new Journal("symax@yesmyfriend.yes", "CT",new Date(), "accès refusé");
 		em.persist(journal);
+		em.persist(journal1);
 		System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe");
 		em.getTransaction().commit();
 		em.close();
