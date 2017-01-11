@@ -23,7 +23,7 @@ public class PeupleurInitial {
 		em.getTransaction().begin();
 		
 		Utilisateur defaultadmin = new Utilisateur("default-admin@depot-vente.fr", "admin", "default-admin", "default-admin", new Date(), "default-admin");
-				
+
 		Action action1 = new Action("rédiger", "rédiger une annonce", new Date(), "default-admin");
 		Action action2 = new Action("modifier", "modifier une annonce", new Date(), "default-admin");
 		Action action3 = new Action("supprimer", "supprimer une annonce", new Date(), "default-admin");
