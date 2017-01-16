@@ -41,8 +41,6 @@ public class Journal implements Serializable {
 		this.statut = statut;
 	}
 
-	
-
 	public String getId() {
 		return id;
 	}
