@@ -26,7 +26,6 @@ public class AuthentificationGUI {
 	public void controler() {
 		Client client = ClientBuilder.newClient();
 		WebTarget cible = client.target(UriBuilder.fromPath("http://tomcatauthentificateur:8080/5-authentificateur"));
-																//tomcatauthentificateur        authentification
 		WebTarget ciblefinale = cible.path("dto");
 		MessageDTO dto = ciblefinale.queryParam("email", email).queryParam("password", password)
 				.request(MediaType.APPLICATION_XML).get(MessageDTO.class);
