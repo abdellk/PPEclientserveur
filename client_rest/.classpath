@@ -8,8 +8,20 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jaxrs-ri compatible"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JPA"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/RabbitMQ"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jaxr-ri sans javaasist et persistence api">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JPA">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/RabbitMQ">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -1,7 +1,6 @@
 package service;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.TimeoutException;
 
 import javax.persistence.EntityManager;
@@ -26,7 +25,7 @@ public class ServiceREST {
 	private final static String QUEUE_NAME = "journal-des-authentifications";
 	private String messageJournal;
 	private String nomprenom;
-	private String role="";
+	private String role;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
@@ -35,12 +34,11 @@ public class ServiceREST {
 		MessageDTO message = new MessageDTO();
 		
 		if(authentifier(email, password)) {
-			message.setBienvenue("Bienvenue " + nomprenom + ", votre rôle est " +role+"," + new Date());
+			message.setBienvenue("Bienvenue " + nomprenom);
 			message.setRole(role);
 		}
 		else
 			message.setBienvenue(messageJournal);
-			message.setRole("");
 		
 		return message;		
 	}
@@ -51,31 +49,29 @@ public class ServiceREST {
 		try {
 				em = FournisseurDePersistance.getInstance().fournir();
 				em.getTransaction().begin();
-				Query requete = em.createNativeQuery("SELECT * FROM UTILISATEUR WHERE EMAIL=?", Utilisateur.class);
+				Query requete = em.createNativeQuery("SELECT * FROM UTILISATEUR WHERE EMAIL = ?", Utilisateur.class);
 				requete.setParameter(1, email);
 				Utilisateur utilisateur = (Utilisateur) requete.getSingleResult();
-				nomprenom = utilisateur.getNom() +" " + utilisateur.getPrenom();
-				role= utilisateur.getRole().getRole();
+				nomprenom = utilisateur.getNom() + " " + utilisateur.getPrenom();
+				role = utilisateur.getRole().getRole();
+				messageJournal = email +"|" + nomprenom +"|";
 				if(!utilisateur.getPassword().equals(password)) {
-					messageJournal = email + "|" + nomprenom + "|mauvais password|" + new Date();
+					messageJournal += "mauvais password";
 				}
 				else {
-						//nomprenom = utilisateur.getNom() + " " + utilisateur.getPrenom();
-						messageJournal = email + "|" + nomprenom + "|succes|" + new Date();
+						
+						messageJournal += "succes";
 						statut = true;
-						//role= utilisateur.getRole().getRole();
-
 				}
-				
-
+				em.getTransaction().commit();
 		} catch (Exception e) {
-			messageJournal = email + "|null|utilisateur inconnu|" + new Date();
+			messageJournal = email + "|null|utilisateur inconnu";
+			em.getTransaction().rollback();
 		}
 		finally {
-			em.getTransaction().commit();
-			em.close();
 			try {
-				journaliser();
+					em.close();
+					journaliser();
 			} catch (Exception e) {e.printStackTrace();
 			}			
 		}
@@ -88,8 +84,8 @@ public class ServiceREST {
 	    Connection connexion = (Connection) factory.newConnection();
 	    Channel channel = connexion.createChannel();
 	    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+	    System.out.println(messageJournal);
 	    channel.basicPublish("", QUEUE_NAME, null, messageJournal.getBytes());
-	    System.out.println(" [x] Envoyé '" + messageJournal + "'");
 	    channel.close();
 	    connexion.close();
 	}
